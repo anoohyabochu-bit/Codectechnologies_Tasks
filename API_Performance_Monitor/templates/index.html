@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>API Performance Monitor</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>API Performance Monitor</h1>
+
+        <p class="subtitle">
+            Monitor API response times, status codes and errors
+        </p>
+
+        <form method="POST">
+
+            <input
+                type="text"
+                name="api_url"
+                placeholder="Enter API URL"
+                required
+            >
+
+            <button type="submit">
+                Monitor API
+            </button>
+
+        </form>
+
+
+        {% if result %}
+
+        <div class="result">
+
+            <h2>Latest Result</h2>
+
+            <p>
+                <strong>API URL:</strong>
+                {{ result.api_url }}
+            </p>
+
+            <p>
+                <strong>Response Time:</strong>
+                {{ result.response_time }} ms
+            </p>
+
+            <p>
+                <strong>Status Code:</strong>
+                {{ result.status_code }}
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+                {{ result.status }}
+            </p>
+
+            {% if result.error %}
+
+            <p class="error">
+                <strong>Error:</strong>
+                {{ result.error }}
+            </p>
+
+            {% endif %}
+
+        </div>
+
+        {% endif %}
+
+
+        <h2>Performance History</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>API URL</th>
+                    <th>Response Time</th>
+                    <th>Status Code</th>
+                    <th>Status</th>
+                    <th>Timestamp</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for metric in metrics %}
+
+                <tr>
+
+                    <td>{{ metric[0] }}</td>
+
+                    <td>{{ metric[1] }}</td>
+
+                    <td>{{ metric[2] }} ms</td>
+
+                    <td>{{ metric[3] }}</td>
+
+                    <td>{{ metric[4] }}</td>
+
+                    <td>{{ metric[5] }}</td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Home Automation</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <header>
+
+        <h1>🏠 Smart Home</h1>
+
+        <p>IoT Home Automation Dashboard</p>
+
+    </header>
+
+
+    <main>
+
+        <!-- Devices -->
+
+        <section>
+
+            <h2>💡 My Devices</h2>
+
+            <div class="device-container">
+
+                {% for device in devices %}
+
+                <div class="device-card">
+
+                    <div class="device-icon">
+
+                        {% if device["device_type"] == "Light" %}
+                            💡
+                        {% elif device["device_type"] == "Fan" %}
+                            🌀
+                        {% else %}
+                            🔌
+                        {% endif %}
+
+                    </div>
+
+
+                    <h3>
+                        {{ device["name"] }}
+                    </h3>
+
+
+                    <p>
+                        Status:
+
+                        <span
+                            id="status-{{ device['id'] }}"
+                            class="status
+                            {% if device['status'] == 'ON' %}
+                            on
+                            {% else %}
+                            off
+                            {% endif %}">
+
+                            {{ device["status"] }}
+
+                        </span>
+
+                    </p>
+
+
+                    <button
+                        onclick="toggleDevice({{ device['id'] }})">
+
+                        {% if device["status"] == "ON" %}
+                            Turn OFF
+                        {% else %}
+                            Turn ON
+                        {% endif %}
+
+                    </button>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <!-- Scheduling -->
+
+        <section class="schedule-section">
+
+            <h2>⏰ Schedule Automation</h2>
+
+
+            <form
+                action="/schedule"
+                method="POST"
+                class="schedule-form">
+
+
+                <label>
+                    Device
+                </label>
+
+                <select name="device_id" required>
+
+                    {% for device in devices %}
+
+                    <option value="{{ device['id'] }}">
+
+                        {{ device["name"] }}
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+
+                <label>
+                    Action
+                </label>
+
+                <select name="action" required>
+
+                    <option value="ON">
+                        Turn ON
+                    </option>
+
+                    <option value="OFF">
+                        Turn OFF
+                    </option>
+
+                </select>
+
+
+                <label>
+                    Time
+                </label>
+
+                <input
+                    type="time"
+                    name="schedule_time"
+                    required>
+
+
+                <button type="submit">
+
+                    Add Schedule
+
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- Scheduled Tasks -->
+
+        <section>
+
+            <h2>📅 Scheduled Tasks</h2>
+
+
+            {% if schedules %}
+
+            <div class="schedule-list">
+
+                {% for schedule in schedules %}
+
+                <div class="schedule-item">
+
+                    <div>
+
+                        <strong>
+                            {{ schedule["name"] }}
+                        </strong>
+
+                        <p>
+
+                            {{ schedule["action"] }}
+                            at
+                            {{ schedule["schedule_time"] }}
+
+                        </p>
+
+                    </div>
+
+
+                    <form
+                        action="/delete_schedule/{{ schedule['id'] }}"
+                        method="POST">
+
+                        <button
+                            class="delete-button"
+                            type="submit">
+
+                            Delete
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <p class="empty">
+                No scheduled tasks yet.
+            </p>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            Smart Home Automation System
+        </p>
+
+    </footer>
+
+
+    <script
+        src="{{ url_for('static', filename='script.js') }}">
+    </script>
+
+</body>
+
+</html>

@@ -73,7 +73,7 @@ Through these projects, I gained practical experience in:
 
 ## Author
 
-**Your Name**
+Anoohya
 
 Computer Science Engineering Student
 

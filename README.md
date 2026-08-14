@@ -1,4 +1,4 @@
-# CodeTech Technologies – Python Internship
+# CodecTechnologies – Python Internship
 
 This repository contains the two projects completed as part of my Python Development Internship at CodeTech Technologies.
 

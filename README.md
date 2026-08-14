@@ -81,4 +81,4 @@ Computer Science Engineering Student
 
 ### Internship
 
-**CodeTech Technologies – Python Development Internship**
+**CodecTech Technologies – Python Development Internship**
